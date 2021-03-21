@@ -18,7 +18,7 @@ export default function Tags({ headline, tags, onUpdateTags, onDeleteTag }) {
       setSelectedTagIndex(-1);
     }
 
-    if (event.key === 'Backspace' && event.target.value === '') {
+    if (event.key === 'Backspace') {
       selectedTagIndex >= 0
         ? onDeleteTag(tags[selectedTagIndex])
         : onDeleteTag(tags[tags.length - 1]);
@@ -45,7 +45,6 @@ export default function Tags({ headline, tags, onUpdateTags, onDeleteTag }) {
             key={index + tag}
             selected={selectedTagIndex === index}
             data-testid="tag"
-            data-selected={selectedTagIndex === index ? 'selected' : ''}
           >
             {tag}
             <span onClick={() => onDeleteTag(tag)}>&times;</span>
