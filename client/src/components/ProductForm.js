@@ -16,6 +16,7 @@ export default function ProductForm({ onSubmitForm }) {
     onSale: false,
   };
   const [product, setProduct] = useState(initialProduct);
+  const [formError, setFormError] = useState(false);
 
   const handleChange = (event) => {
     const field = event.target;
@@ -50,23 +51,30 @@ export default function ProductForm({ onSubmitForm }) {
     isValidEmail(product.supportContact);
 
   function submitForm(event) {
+    event.preventDefault();
     if (isValidProductEntry(product)) {
-      event.preventDefault();
+      setFormError(false);
       onSubmitForm(product);
       setProduct(initialProduct);
     } else {
-      alert('Not a valid product entry');
+      setFormError(true);
+      // alert('Not a valid product entry');
     }
   }
 
   function resetForm() {
-    console.log('call me maybe');
     setProduct(initialProduct);
   }
 
   return (
     <Form onSubmit={submitForm} data-testid="add-product-form">
       <h2>Add new Product</h2>
+
+      {formError && (
+        <Error data-testid="form-error-display">
+          Please check your form inputs.
+        </Error>
+      )}
 
       <label htmlFor="name">Product Name</label>
       <input
@@ -257,4 +265,9 @@ const Buttons = styled.div`
   button {
     width: 48%;
   }
+`;
+
+const Error = styled.section`
+  padding: 0.5rem 1rem;
+  background: rebeccapurple;
 `;

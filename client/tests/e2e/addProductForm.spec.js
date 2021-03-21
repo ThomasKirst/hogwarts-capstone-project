@@ -2,6 +2,8 @@
 
 describe('<ProductForm />', () => {
   beforeEach(() => {
+    cy.request('http://localhost:4000/api/prune-database');
+
     cy.viewport('ipad-2');
     cy.visit('/');
     cy.get('[href="/products"]').first().click();
@@ -42,8 +44,18 @@ describe('<ProductForm />', () => {
 
     cy.get('button[type="submit"]').click();
 
+    cy.get('[data-testid="form-error-display"]').should('not.exist');
+
     cy.get('[href="/products/all"]').click();
 
     cy.get('[data-testid="product-card"]').contains(product.name);
+  });
+
+  it('should display an error field when the form entry is not valid', () => {
+    cy.get('[name="name"]').type('Dummy product');
+
+    cy.get('button[type="submit"]').click();
+
+    cy.get('[data-testid="form-error-display"]').should('be.visible');
   });
 });
