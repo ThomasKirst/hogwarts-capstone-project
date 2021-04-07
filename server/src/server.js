@@ -27,6 +27,10 @@ mongoose.connect(connectionString, {
 
 server.use(express.static('./client/build'));
 
+server.get('/*', function (req, res) {
+  res.sendFile('./client/build/index.html');
+});
+
 server.get('/api', (req, res) =>
   res.json({ status: 'Server is up and running.' })
 );
