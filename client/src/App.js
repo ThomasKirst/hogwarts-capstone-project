@@ -122,6 +122,7 @@ function App() {
             favoriteProducts={favoriteProducts}
             updateFavorites={updateFavorites}
             categoryPlaceholders={categoryPlaceholders}
+            addToCart={addToCart}
           />
         </Route>
         <Route path="/cart">
