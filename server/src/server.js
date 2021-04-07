@@ -29,12 +29,6 @@ mongoose.connect(connectionString, {
   useFindAndModify: false,
 });
 
-server.use(express.static(path.join(__dirname, '../../client/build')));
-
-server.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
-});
-
 server.get('/api', (req, res) =>
   res.json({ status: 'Server is up and running.' })
 );
@@ -46,6 +40,12 @@ server.use('/api', [
   wishlistRoutes,
   maintenanceRoutes,
 ]);
+
+server.use(express.static(path.join(__dirname, '../../client/build')));
+
+server.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
+});
 
 const port = process.env.PORT || 4000;
 server.listen(port, () => console.log(`Server listens on port ${port}.`));
