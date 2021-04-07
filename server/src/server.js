@@ -2,12 +2,16 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { dirname } from './lib/pathHelpers.js';
 
 import shoppingCartRoutes from './routes/shoppingCartRoutes.routes.js';
 import productRoutes from './routes/products.routes.js';
 import customerRoutes from './routes/customerRoutes.routes.js';
 import wishlistRoutes from './routes/wishlist.routes.js';
 import maintenanceRoutes from './routes/maintenanceRoutes.routes.js';
+
+const __dirname = dirname(import.meta.url);
 
 dotenv.config();
 
@@ -25,10 +29,10 @@ mongoose.connect(connectionString, {
   useFindAndModify: false,
 });
 
-server.use(express.static('./client/build'));
+server.use(express.static(path.join(__dirname, '../../client/build')));
 
 server.get('/*', function (req, res) {
-  res.sendFile('./client/build/index.html');
+  res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
 });
 
 server.get('/api', (req, res) =>
