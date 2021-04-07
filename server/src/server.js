@@ -2,26 +2,32 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+
 import shoppingCartRoutes from './routes/shoppingCartRoutes.routes.js';
 import productRoutes from './routes/products.routes.js';
 import customerRoutes from './routes/customerRoutes.routes.js';
 import wishlistRoutes from './routes/wishlist.routes.js';
 import maintenanceRoutes from './routes/maintenanceRoutes.routes.js';
 
-const result = dotenv.config();
+dotenv.config();
+
 const server = express();
 server.use(cors());
 server.use(express.json());
-const DB_NAME = process.env.DB_NAME || 'wizard-shop';
 
-const connectionString = `mongodb://localhost:27017/${DB_NAME}`;
+const DB_CONNECTION =
+  process.env.DB_CONNECTION || 'mongodb://localhost:27017/wizard-shop';
+
+const connectionString = DB_CONNECTION;
 mongoose.connect(connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
 });
 
-server.get('/', (req, res) =>
+server.use(express.static('./client/build'));
+
+server.get('/api', (req, res) =>
   res.json({ status: 'Server is up and running.' })
 );
 
